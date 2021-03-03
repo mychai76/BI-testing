@@ -33,7 +33,7 @@
           - Status code is {{ paymenz_url.status }}
    
    - name: check cpu percentage when > 0
-      win_command: wmic path win32_perfformatteddata_perfproc_process where (Name='chrome') get PercentProcessorTime /format:list
+      win_command: wmic path win32_perfformatteddata_perfproc_process where (Name='place holder') get PercentProcessorTime /format:list
       register: cpu_results
 
    - pause:
