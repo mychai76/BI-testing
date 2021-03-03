@@ -1,0 +1,46 @@
+---
+- name:  Starting GlassfishAppServer Service
+  hosts: rentas
+  gather_facts: no
+  tasks:
+  - name: Start glassfishappserver
+    win_service:
+      name: <GlassFish4 Apps>
+      state: started
+    register: glassfish_result
+
+  - debug:
+    var: glassfish_result
+
+  - name: Start Paymenz 
+    win_service:
+      name: GlassFish4
+      state: started
+    register: paymenz_result
+
+  - debug:
+    var: paymenz_result
+
+  - name: Check Paymenz URL
+    uri:
+      url: https://<localhost--insertIP>:8181/STPGateway/Commonindex
+      register: paymenz_url
+    failed_when: paymenz_url.status != "200"
+  
+    - debug: 
+        msg:
+          - "{{ paymenz_url.url }}"
+          - Status code is {{ paymenz_url.status }}
+   
+   - name: check cpu percentage when > 0
+      win_command: wmic path win32_perfformatteddata_perfproc_process where (Name='chrome') get PercentProcessorTime /format:list
+      register: cpu_results
+
+   - pause:
+        seconds: 600
+
+   - fail:
+       msg: cpu usage > 0
+     when: cpu_results.stdout_lines[4]== "PercentProcessorTime=0"
+   - debug:
+       var: cpu_results.stdout_lines
