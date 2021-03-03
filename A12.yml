@@ -1,0 +1,6 @@
+---
+- name: STP Health Check Batch
+  hosts: winsvr12
+  tasks:
+    - name: enable the STP Health check 
+      win_command: E:\GlassFishESBv22\glassfish\domains\domain1\applications\j2ee-mopdules\STPGateway\WEB-INF\classes\doHealthCheck.bat
