@@ -1,0 +1,43 @@
+---
+- name: check log file 
+  hosts: rentas
+  vars:
+    chk_retry: 10
+    chk_delay: 10
+  tasks: 
+    - name: check the server log file BCH00011 word present
+      win_shell: Get-Content C:\glassfish4\glassfish\domains\domain1\logs\server.log | where {$_ -match "--- BCH00011 ---"}
+      register: bch00011_results
+      retires: "{{ chk_retry }}"
+      delay: "{{ chk_delay }}"
+
+    - debug: 
+        var: bch00011_results_stdout
+
+    - name: check the server log file BCH00012 word present
+      win_shell: Get-Content C:\glassfish4\glassfish\domains\domain1\logs\server.log | where {$_ -match "--- BCH00012 ---"}
+      register: bch00012_results
+      retires: "{{ chk_retry }}"
+      delay: "{{ chk_delay }}"
+
+    - debug: 
+        var: bch00012_results_stdout
+
+    - name: check the server log file BCH00013 word present
+      win_shell: Get-Content C:\glassfish4\glassfish\domains\domain1\logs\server.log | where {$_ -match "--- BCH00013 ---"}
+      register: bch00013_results
+      retires: "{{ chk_retry }}"
+      delay: "{{ chk_delay }}"
+
+    - debug: 
+        var: bch00013_results_stdout
+
+    - name: check the server log file BCH00020 word present
+      win_shell: Get-Content C:\glassfish4\glassfish\domains\domain1\logs\server.log | where {$_ -match "--- BCH00020 ---"}
+      register: bch00020_results
+      retires: "{{ chk_retry }}"
+      delay: "{{ chk_delay }}"
+
+    - debug: 
+        var: bch00020_results_stdout
+
