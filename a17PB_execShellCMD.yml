@@ -1,0 +1,6 @@
+---
+- name: start the BCH batch job
+  hosts: rentas
+  tasks: 
+    - name: start the BCH00000.bat job
+      win_command: E:\glassfish4\glassfish\domains\domain1\applications\PAYMENTZ2016\WEB-INF\classes\BCH00000.bat
