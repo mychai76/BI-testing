@@ -1,0 +1,44 @@
+---
+- name: start the PAYMENZ services
+  hosts: rentas
+  tasks: 
+    - name: start the TRXBCH00001 Message Queue Listener PAYMENZ
+      win_service:
+        name: TRXBCH00001 
+        state: started
+      register: TRXBCH00001_result
+      failed_when: "'stopped' in TRXBCH00001_result.state"
+
+    - debug: 
+        var: TRXBCH00001_result
+
+    - name: start the TRXBCH00006 Socket Listener PAYMENZ
+      win_service:
+        name: TRXBCH00006 
+        state: started
+      register: TRXBCH00006_result
+      failed_when: "'stopped' in TRXBCH00006_result.state"
+
+    - debug: 
+        var: TRXBCH00006_result
+
+    - name: start the FTPListener File Listener PAYMENZ
+      win_service:
+        name: FTPListener 
+        state: started
+      register: FTPListener_result
+      failed_when: "'stopped' in FTPListener_result.state"
+
+    - debug: 
+        var: FTPListener_result
+
+    - name: start the OpenESB PAYMENZ
+      win_service:
+        name: OpenESB 
+        state: started
+      register: OpenESB_result
+      failed_when: "'stopped' in OpenESB_result.state"
+
+    - debug: 
+        var: OpenESB_result
+
