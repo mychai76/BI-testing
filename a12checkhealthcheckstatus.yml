@@ -1,0 +1,33 @@
+---
+- name: check the do healthcheck is successful
+  hosts: rentas
+  tasks:
+    - name: check the lastest healthcheckinfo_domain1_"date"
+      win_shell: forfiles /P C:\glassfish4\glassfish\domains\domain1\logs /M HealthCheckInfo_domain1* /C "cmd /c echo @path" | select -last 1
+      register: logfile1
+
+    - debug:
+        var: logfile1
+
+    - set_fact:
+        logfile2: "{{ logfile1.stdout | regex_replace('.*C:', 'C:') }}"
+      delegate_to: localhost
+
+    - set_fact:
+        logfile: "{{ logfile2 | regex_replace('.log\".*\n', '.log') }}"
+      delegate_to: localhost
+
+    - name: find the keyword
+      win_shell: get-content "{{ logfile }}"|select -last 170 | where {$_ -match "RUNNING"} 
+      register: result
+      failed_when: result.stdout==""
+
+    - debug:
+        var: result
+
+    - name: check the PaymenZ status
+      win_shell: Get-Content C:\glassfish4\glassfish\domains\domain1\logs\HealthCheckLog.log | Select-String "PAYMENZ2016" | Select-String "RUNNING"
+      register: result1
+
+    - debug:
+        var: result1
