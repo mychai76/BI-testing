@@ -3,4 +3,6 @@
   hosts: rentas
   tasks: 
     - name: start the BCH00000.bat job
-      win_command: E:\glassfish4\glassfish\domains\domain1\applications\PAYMENTZ2016\WEB-INF\classes\BCH00000.bat
+      win_command: BCH00000.bat
+      args:
+        chdir: E:\glassfish4\glassfish\domains\domain1\applications\PAYMENTZ2016\WEB-INF\classes\
